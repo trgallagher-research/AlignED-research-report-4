@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Introduction — AlignED Report 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="introduction">
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo">AlignED</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <a href="index.html">Abstract</a>
+        <a href="introduction.html" class="active">1. Introduction</a>
+        <a href="methods.html">2. Methods</a>
+        <a href="results.html">3. Results</a>
+        <a href="discussion.html">4. Discussion</a>
+        <a href="appendices.html">Appendices</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>1. Introduction</h1>
+        <p class="subtitle">Why the fading effect matters when teachers use LLMs to create worked examples</p>
+      </div>
+
+      <div class="prose content-section">
+
+        <h2>Teachers are using LLMs to create worked examples</h2>
+
+        <p>"Create a set of worked examples for [topic]" is among the most natural prompts a teacher can write. Worked examples are a staple of mathematics instruction: a problem is presented, and a step-by-step solution is shown for students to study. Data from the OECD's 2024 Teaching and Learning International Survey (TALIS) shows that 41% of lower secondary teachers across participating countries have used AI for professional tasks. For many, generating instructional materials is one of those tasks.</p>
+
+        <p>The question is not whether teachers are doing this. They are. The question is whether the outputs they receive reflect what the evidence base says about how worked examples should be designed.</p>
+
+        <h2>The fading effect</h2>
+
+        <p>Cognitive load theory (CLT) is one of the most influential frameworks in instructional design. Among its best-established findings is the <strong>worked example fading effect</strong>: instructional sequences should begin with fully worked examples and progressively remove solution steps so that learners gradually take over the problem-solving process. By the end of the sequence, the student is solving problems independently.</p>
+
+        <p>This is distinct from simply making problems harder. Fading means removing scaffolding. A sequence of four equations that get progressively more difficult, each with every step shown, is not fading. A sequence where the first example shows all steps, the second omits the final step for the student to complete, the third omits more steps, and the fourth is a practice problem with no steps shown: that is fading.</p>
+
+        <p>The distinction matters because difficulty progression and scaffolding removal are different instructional mechanisms. Harder problems with full solutions maintain the same cognitive load structure. Fading deliberately shifts cognitive work from the example to the learner, which is the mechanism through which worked examples transition into independent practice.</p>
+
+        <h2>The research question</h2>
+
+        <p>When a teacher asks an LLM to create worked examples for a common educational task, does the model apply fading? Three sub-questions follow:</p>
+
+        <ol>
+          <li><strong>Unprompted:</strong> When the prompt makes no mention of pedagogy, does the model apply fading on its own?</li>
+          <li><strong>General CLT:</strong> When told to "apply cognitive load theory principles," does the model select fading from its repertoire of CLT knowledge?</li>
+          <li><strong>Specific fading:</strong> When the prompt names and defines the fading effect, does the model implement it correctly?</li>
+        </ol>
+
+        <p>These three conditions form a prompting gradient. The gap between Condition B (general CLT) and Condition C (specific fading) is where the interesting finding lies: models may know about fading without applying it, unless told exactly what to do.</p>
+
+        <h2>Why this matters for teachers</h2>
+
+        <p>If a model produces four fully worked examples when best practice says it should fade, a teacher who trusts the output is receiving material that misses a well-established design principle. The teacher may not know that fading should be applied. Or they may know but assume the model has handled it, particularly if they prompted the model to "apply cognitive load theory."</p>
+
+        <p>This is not about whether LLMs "understand" pedagogy. It is about what outputs teachers receive and whether those outputs reflect the evidence base.</p>
+
+        <h2>Scope of this study</h2>
+
+        <p>This is a pilot study. Two frontier models (Claude Opus 4.6 and Gemini 3.1 Pro) were tested across three prompting conditions, producing six outputs and six reasoning traces. All findings are descriptive. The study tests a methodology: can examining both outputs and reasoning traces reveal how models handle pedagogical theory? The findings will inform whether a larger multi-principle study is warranted.</p>
+
+        <div class="note">
+          <strong>A note on scope:</strong> A third model (OpenAI GPT-5.2 Pro) was planned but could not be included because its reasoning trace access was unavailable at the time of data collection. The study proceeded with two models rather than delay.
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="color: white;">AlignED</a>
+          <p>Benchmarking AI models for educational practice.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Sections</h4>
+          <ul>
+            <li><a href="introduction.html">Introduction</a></li>
+            <li><a href="methods.html">Methods</a></li>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="discussion.html">Discussion</a></li>
+            <li><a href="appendices.html">Appendices</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="appendices.html#citation">Citation</a></li>
+            <li><a href="https://trgallagher-research.github.io/AlignED-research-reports/">All Reports</a></li>
+            <li><a href="https://github.com/trgallagher-research/AlignED-research-report-4" target="_blank">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="copyright">&copy; 2026 AlignED. Last updated: March 2026.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

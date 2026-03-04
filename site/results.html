@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Results — AlignED Report 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body data-page="results">
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo">AlignED</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <a href="index.html">Abstract</a>
+        <a href="introduction.html">1. Introduction</a>
+        <a href="methods.html">2. Methods</a>
+        <a href="results.html" class="active">3. Results</a>
+        <a href="discussion.html">4. Discussion</a>
+        <a href="appendices.html">Appendices</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container-wide">
+      <div class="page-header">
+        <h1>3. Results</h1>
+        <p class="subtitle">Output scores, trace scores, and the knowledge-application gap</p>
+      </div>
+
+      <!-- Jump links -->
+      <div class="jump-links mt-3">
+        <h3>On this page</h3>
+        <ul>
+          <li><a href="#output-scores">Output scores</a></li>
+          <li><a href="#trace-scores">Trace scores</a></li>
+          <li><a href="#concordance">Output-trace concordance</a></li>
+          <li><a href="#condition-b">The Condition B finding</a></li>
+          <li><a href="#trace-excerpts">Key trace excerpts</a></li>
+        </ul>
+      </div>
+
+      <!-- Model Legend -->
+      <div class="provider-legend">
+        <div class="legend-item">
+          <span class="legend-dot" style="background: #3B6B9A;"></span>
+          Claude Opus 4.6 (Anthropic)
+        </div>
+        <div class="legend-item">
+          <span class="legend-dot" style="background: #B67D5C;"></span>
+          Gemini 3.1 Pro (Google)
+        </div>
+      </div>
+
+      <!-- Chart 1: Output Scores -->
+      <div class="chart-section" id="output-scores">
+        <div class="chart-header">
+          <div class="chart-title">Output structure scores by condition</div>
+          <div class="chart-subtitle">Did the model's output implement fading? (0 = uniform, 1 = some variation, 2 = progressive scaffolding removal)</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-output-scores"></canvas>
+        </div>
+        <div class="observations">
+          <strong>Observations:</strong>
+          <ul>
+            <li>Neither model applied fading when unprompted (Condition A). Both produced four uniform, fully worked examples.</li>
+            <li>Gemini scored 1 in Condition B (some structural variation) but did not leave steps for the student. Claude scored 0.</li>
+            <li>Both models scored 2 in Condition C, producing correctly faded sequences with steps explicitly left for the student.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Chart 2: Trace Scores -->
+      <div class="chart-section" id="trace-scores">
+        <div class="chart-header">
+          <div class="chart-title">Reasoning trace scores by condition</div>
+          <div class="chart-subtitle">Did the model's reasoning trace reference fading? (0 = absent, 1 = implicit logic, 2 = explicit reference)</div>
+        </div>
+        <div class="chart-container">
+          <canvas id="chart-trace-scores"></canvas>
+        </div>
+        <div class="observations">
+          <strong>Observations:</strong>
+          <ul>
+            <li>Neither model's trace referenced fading in Condition A. Reasoning was about content coverage and equation variety.</li>
+            <li>Both models scored 2 in Condition B: their traces explicitly named CLT constructs including fading. This is the headline finding.</li>
+            <li>In Condition C, Gemini's trace was richer (scored 2, named "backward fading" and planned percentage allocations). Claude's trace was more procedural (scored 1, restated the fading structure without formal terminology).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Concordance Table -->
+      <div class="section-divider" id="concordance">
+        <h2>Output-trace concordance</h2>
+        <p>Comparing what the model produced (output) with what it reasoned about (trace)</p>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Condition</th>
+            <th>Output (0&ndash;2)</th>
+            <th>Trace (0&ndash;2)</th>
+            <th>Pattern</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Claude Opus 4.6</td>
+            <td>A: Unprompted</td>
+            <td>0</td>
+            <td>0</td>
+            <td>Neither reasoned nor applied</td>
+          </tr>
+          <tr style="background: #FEF3C7;">
+            <td><strong>Claude Opus 4.6</strong></td>
+            <td><strong>B: General CLT</strong></td>
+            <td><strong>0</strong></td>
+            <td><strong>2</strong></td>
+            <td><strong>Reasoned but did not apply</strong></td>
+          </tr>
+          <tr>
+            <td>Claude Opus 4.6</td>
+            <td>C: Specific fading</td>
+            <td>2</td>
+            <td>1</td>
+            <td>Applied with procedural reasoning</td>
+          </tr>
+          <tr>
+            <td>Gemini 3.1 Pro</td>
+            <td>A: Unprompted</td>
+            <td>0</td>
+            <td>0</td>
+            <td>Neither reasoned nor applied</td>
+          </tr>
+          <tr style="background: #FEF3C7;">
+            <td><strong>Gemini 3.1 Pro</strong></td>
+            <td><strong>B: General CLT</strong></td>
+            <td><strong>1</strong></td>
+            <td><strong>2</strong></td>
+            <td><strong>Reasoned but misapplied</strong></td>
+          </tr>
+          <tr>
+            <td>Gemini 3.1 Pro</td>
+            <td>C: Specific fading</td>
+            <td>2</td>
+            <td>2</td>
+            <td>Reasoned and applied correctly</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The highlighted rows are the central finding. In Condition B, both models' reasoning traces explicitly referenced fading or related CLT constructs (trace score = 2), but neither model's output implemented fading correctly (output score = 0 or 1).</p>
+
+      <!-- Condition B Finding -->
+      <div class="section-divider" id="condition-b">
+        <h2>The Condition B finding</h2>
+        <p>The knowledge-application gap in detail</p>
+      </div>
+
+      <div class="note">
+        <strong>The headline finding:</strong> When told to "apply cognitive load theory," both models retrieved fading-related knowledge in their reasoning traces but did not implement fading in their outputs. The models know about fading. They chose not to apply it, or misapplied it, when the prompt did not name the specific principle.
+      </div>
+
+      <p><strong>Claude in Condition B</strong> listed five CLT principles by name in its trace, including the worked example effect. It interpreted that principle as providing <em>complete</em> solutions. The output listed "completion problems (fading worked examples)" as a suggested <em>future next step</em> for the teacher. Claude knew fading existed and deliberately deferred it.</p>
+
+      <p><strong>Gemini in Condition B</strong> explicitly named "fading" in its trace but immediately redefined it as difficulty progression: "starting with simpler equations and gradually increasing complexity." The output increased equation difficulty across examples but did not remove any solution steps. Gemini had the right word but mapped it to the wrong mechanism.</p>
+
+      <!-- Trace Excerpts -->
+      <div class="section-divider" id="trace-excerpts">
+        <h2>Key trace excerpts</h2>
+        <p>Selected passages from the reasoning traces, presented as generated artefacts</p>
+      </div>
+
+      <h3>Condition A traces: content coverage only</h3>
+
+      <blockquote>
+        <p>"I need to create 4 worked examples for Year 8 students on solving two-step linear equations. I'll make them progressively more challenging and cover different variations, including positive and negative numbers, and different operations."</p>
+        <p style="font-style: normal; font-size: 0.85rem; color: var(--text-muted);">Claude Opus 4.6, Condition A</p>
+      </blockquote>
+
+      <blockquote>
+        <p>"To cover a good range of examples, I'll vary the equations. Example one will be a straightforward addition and multiplication problem... finally, to challenge them slightly and reinforce understanding that equations work both ways, Example four will involve... the variable on the right side."</p>
+        <p style="font-style: normal; font-size: 0.85rem; color: var(--text-muted);">Gemini 3.1 Pro, Condition A</p>
+      </blockquote>
+
+      <p>Both traces focus on content variety and difficulty sequencing. Neither mentions how much the student should do, scaffolding, or any pedagogical framework.</p>
+
+      <h3>Condition B traces: formal CLT knowledge retrieved but fading mishandled</h3>
+
+      <blockquote>
+        <p>"Cognitive load theory principles relevant here: 1. Intrinsic load management... 2. Extraneous load reduction... 3. Germane load optimization... 4. Worked example effect &mdash; provide complete, step-by-step solutions... 5. Element interactivity..."</p>
+        <p style="font-style: normal; font-size: 0.85rem; color: var(--text-muted);">Claude Opus 4.6, Condition B (trace lists fading as a "suggested next step" in the output, not as something to implement now)</p>
+      </blockquote>
+
+      <blockquote>
+        <p>"I'll lean heavily on the Worked Example Effect. This means providing complete solutions with annotations... I'll also incorporate 'fading' by starting with simpler equations and gradually increasing complexity, but maintaining a similar format."</p>
+        <p style="font-style: normal; font-size: 0.85rem; color: var(--text-muted);">Gemini 3.1 Pro, Condition B (equates "fading" with difficulty progression)</p>
+      </blockquote>
+
+      <p>This is the most revealing pair of traces in the dataset. Claude lists fading as a known concept but classifies it as a later step. Gemini names fading but redefines it as making equations harder. Both models have the vocabulary. Neither selects the correct application.</p>
+
+      <h3>Condition C traces: correct implementation when instructed</h3>
+
+      <blockquote>
+        <p>"The worked example fading effect involves: 1. First example: Complete worked example (all steps shown) 2. Second example: Most steps shown, one step removed 3. Third example: More steps removed, students complete more 4. Fourth example: Most/all steps removed, students solve independently"</p>
+        <p style="font-style: normal; font-size: 0.85rem; color: var(--text-muted);">Claude Opus 4.6, Condition C</p>
+      </blockquote>
+
+      <blockquote>
+        <p>"We're using the worked example fading effect here, also known as backward fading, and this is based on cognitive load theory... The fading should be: Example 1, 100% teacher. Example 2, 75% teacher, 25% student. Example 3, 25% teacher, 75% student. And Example 4: 0% teacher, 100% student."</p>
+        <p style="font-style: normal; font-size: 0.85rem; color: var(--text-muted);">Gemini 3.1 Pro, Condition C (the richest pedagogical reasoning in any trace)</p>
+      </blockquote>
+
+      <p>When told what fading is, both models plan and implement it correctly. Gemini's Condition C trace is the most detailed pedagogical reasoning in the entire dataset: it names the specific variant (backward fading), plans percentage allocations, and produces a correctly faded sequence.</p>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="color: white;">AlignED</a>
+          <p>Benchmarking AI models for educational practice.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Sections</h4>
+          <ul>
+            <li><a href="introduction.html">Introduction</a></li>
+            <li><a href="methods.html">Methods</a></li>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="discussion.html">Discussion</a></li>
+            <li><a href="appendices.html">Appendices</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="appendices.html#citation">Citation</a></li>
+            <li><a href="https://trgallagher-research.github.io/AlignED-research-reports/">All Reports</a></li>
+            <li><a href="https://github.com/trgallagher-research/AlignED-research-report-4" target="_blank">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="copyright">&copy; 2026 AlignED. Last updated: March 2026.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/charts.js"></script>
+</body>
+</html>

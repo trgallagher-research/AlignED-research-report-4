@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Appendices — AlignED Report 4</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="appendices">
+  <!-- Navigation -->
+  <header>
+    <div class="container">
+      <a href="index.html" class="logo">AlignED</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <nav>
+        <a href="index.html">Abstract</a>
+        <a href="introduction.html">1. Introduction</a>
+        <a href="methods.html">2. Methods</a>
+        <a href="results.html">3. Results</a>
+        <a href="discussion.html">4. Discussion</a>
+        <a href="appendices.html" class="active">Appendices</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="page-header">
+        <h1>Appendices</h1>
+        <p class="subtitle">Full prompts, scoring rubric, complete reasoning traces, and model outputs</p>
+      </div>
+
+      <div class="prose content-section">
+
+        <!-- Jump links -->
+        <div class="jump-links">
+          <h3>On this page</h3>
+          <ul>
+            <li><a href="#prompts">A: Full prompts</a></li>
+            <li><a href="#rubric">B: Scoring rubric</a></li>
+            <li><a href="#traces">C: Reasoning traces</a></li>
+            <li><a href="#outputs">D: Model outputs</a></li>
+            <li><a href="#methodology">E: Methodology document</a></li>
+            <li><a href="#citation">Citation</a></li>
+            <li><a href="#contact">Contact</a></li>
+          </ul>
+        </div>
+
+        <!-- Appendix A: Prompts -->
+        <h2 id="prompts">Appendix A: Full prompts</h2>
+
+        <h3>Condition A: Unprompted</h3>
+        <pre>You are an experienced mathematics teacher. Create a set of 4 worked examples teaching Year 8 students how to solve two-step linear equations (e.g., 3x + 5 = 20). Each worked example should present a problem and its full worked solution.</pre>
+
+        <h3>Condition B: General CLT</h3>
+        <pre>You are an experienced mathematics teacher. Create a set of 4 worked examples teaching Year 8 students how to solve two-step linear equations (e.g., 3x + 5 = 20). Each worked example should present a problem and its full worked solution. Apply cognitive load theory principles in your design.</pre>
+
+        <h3>Condition C: Specific fading</h3>
+        <pre>You are an experienced mathematics teacher. Create a set of 4 worked examples teaching Year 8 students how to solve two-step linear equations (e.g., 3x + 5 = 20). Apply the worked example fading effect from cognitive load theory: systematically remove solution steps across the sequence so that learners gradually take over more of the problem-solving process.</pre>
+
+        <p><strong>Design notes:</strong> Condition A uses "set" rather than "sequence" to avoid priming CLT associations. Condition A asks for "full worked solutions," creating a deliberate tension with fading. The role frame ("You are an experienced mathematics teacher") is consistent across all conditions.</p>
+
+        <!-- Appendix B: Rubric -->
+        <h2 id="rubric">Appendix B: Full scoring rubric</h2>
+
+        <h3>Dimension 1: Output structure (0&ndash;2)</h3>
+        <table>
+          <thead>
+            <tr><th>Score</th><th>Label</th><th>Criteria</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>0</strong></td>
+              <td>Uniform</td>
+              <td>All four examples have the same structure. Every solution step is fully completed by the model in all four examples. The examples may vary in difficulty but not in how much work the student does.</td>
+            </tr>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Some variation</td>
+              <td>There is some structural variation across examples (shorter explanations, different formatting). All solution steps are still completed by the model. No steps are left for the student to complete.</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Progressive scaffolding removal</td>
+              <td>Solution steps are progressively removed across the set. At least one example is partially completed (some steps left blank, marked with "?", or explicitly left for the student), and the final example requires the student to complete most or all steps independently.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p><strong>Key distinctions:</strong></p>
+        <ul>
+          <li>Harder equations with all steps shown = 0 or 1, not scaffolding removal.</li>
+          <li>Less narration but all steps present = 1, not scaffolding removal.</li>
+          <li>Steps left for the student to complete = 2.</li>
+        </ul>
+
+        <h3>Dimension 2: Reasoning trace content (0&ndash;2)</h3>
+        <table>
+          <thead>
+            <tr><th>Score</th><th>Label</th><th>Criteria</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>0</strong></td>
+              <td>Absent</td>
+              <td>Trace does not reference fading, scaffolding removal, or the logic of gradually shifting work to the learner.</td>
+            </tr>
+            <tr>
+              <td><strong>1</strong></td>
+              <td>Implicit logic</td>
+              <td>Trace references the underlying logic without CLT terminology. Examples: "I should have them do more of the work in later ones," "gradually reduce the support."</td>
+            </tr>
+            <tr>
+              <td><strong>2</strong></td>
+              <td>Explicit reference</td>
+              <td>Trace explicitly names: fading, the worked example effect, the completion problem effect, cognitive load theory, or Sweller.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Appendix C: Reasoning Traces -->
+        <h2 id="traces">Appendix C: Complete reasoning traces</h2>
+
+        <p>All six reasoning traces are reproduced below in full. These are generated text, not a window into model computation. See the <a href="methods.html#traces">interpretability disclaimer</a> in the Methods section.</p>
+
+        <details>
+          <summary>Claude Opus 4.6 &mdash; Condition A (Unprompted)</summary>
+          <div class="details-content">
+            <pre>I need to create 4 worked examples for Year 8 students on solving two-step linear equations. I'll make them progressively more challenging and cover different variations, including positive and negative numbers, and different operations.
+
+Let me create a clear, well-structured set of examples.
+
+Example 1: Basic (positive coefficients, positive constant)
+Example 2: Subtraction involved
+Example 3: Negative constant on the same side as the variable
+Example 4: Slightly more complex, maybe with a negative coefficient or larger numbers
+
+Let me write these out with clear, step-by-step solutions.</pre>
+          </div>
+        </details>
+
+        <details>
+          <summary>Claude Opus 4.6 &mdash; Condition B (General CLT)</summary>
+          <div class="details-content">
+            <pre>The user wants me to create 4 worked examples for solving two-step linear equations for Year 8 students, applying cognitive load theory principles.
+
+Cognitive load theory principles relevant here:
+1. **Intrinsic load management** - sequence from simple to complex, don't introduce too many new elements at once
+2. **Extraneous load reduction** - clear, consistent formatting; avoid unnecessary information; use clear language
+3. **Germane load optimization** - use consistent solution structure so students can build schemas; highlight the underlying principle/pattern
+4. **Worked example effect** - provide complete, step-by-step solutions that students can study
+5. **Element interactivity** - start with low element interactivity and gradually increase</pre>
+          </div>
+        </details>
+
+        <details>
+          <summary>Claude Opus 4.6 &mdash; Condition C (Specific fading)</summary>
+          <div class="details-content">
+            <pre>The user wants me to create 4 worked examples for solving two-step linear equations, applying the worked example fading effect from cognitive load theory.
+
+The worked example fading effect involves:
+1. First example: Complete worked example (all steps shown)
+2. Second example: Most steps shown, one step removed for students to complete
+3. Third example: More steps removed, students complete more
+4. Fourth example: Most/all steps removed, students solve independently (or nearly so)
+
+Let me create a logical progression for solving equations like 3x + 5 = 20.
+
+The general steps for solving a two-step linear equation are:
+1. Identify the equation</pre>
+          </div>
+        </details>
+
+        <details>
+          <summary>Gemini 3.1 Pro &mdash; Condition A (Unprompted)</summary>
+          <div class="details-content">
+            <pre>**My Plan for Crafting Two-Step Equation Examples**
+
+Right, let's get down to it. I need to create four worked examples for Year 8 students on solving two-step linear equations. My aim is to make it crystal clear, encouraging, and step-by-step, targeting those crucial 12-14-year-olds.
+
+First, I've got to ensure the pedagogical approach is spot on. For this age group, the balance method is the way to go—doing the same thing to both sides is intuitive and powerful. I'll make sure to explicitly state the core goal: to isolate that variable, getting 'x' (or whatever letter we're using) all by itself. I'll highlight the reverse order of operations – undoing addition/subtraction *before* multiplication/division.
+
+To cover a good range of examples, I'll vary the equations. Example one will be a straightforward addition and multiplication problem like *3x + 5 = 26*.  The second example will use subtraction, such as *4y - 7 = 13*. Example three will include division: *m/2 + 4 = 10*.
+
+Finally, to challenge them slightly and reinforce the understanding that equations work both ways, Example four will involve a negative coefficient or the variable on the right side. I thought about a few: maybe a negative coefficient example *15 - 2k = 3* or even an equation with the variable on the right like *22 = 5p - 3* and decided that the negative coefficient example is the perfect way to solidifying the basics.
+
+With these examples planned, I'll start drafting.  I'll begin each with a friendly introduction.  Each worked solution will be meticulously broken down:
+
+*   **Example 1:** Solve *3x + 5 = 26* (subtract 5, then divide by 3)
+*   **Example 2:** Solve *4y - 7 = 13* (add 7, then divide by 4)
+*   **Example 3:** Solve *m/2 + 4 = 10* (subtract 4, then multiply by 2).
+*   **Example 4:** Solve *15 - 2k = 3* (subtract 15, then divide by -2) or $22 = 5p - 3$. I will add 3, then divide by 5.
+
+I'll include a 'check' step in the first example to model good practice.
+
+Once the examples are drafted, I'll review them with a Year 8 lens. Is the language right? Are the steps clear and well-separated?  I'll use the proper terminology: 'variable', 'inverse operation', 'isolate'. I think I'll also add a little "Teacher Tip" to each one or maybe a general one at the beginning, just to give a little extra guidance.
+
+Finally, I'll tidy up the presentation with clear markdown formatting, using bolding and bullet points to make it easily readable, whether it's for a worksheet or whiteboard notes.</pre>
+          </div>
+        </details>
+
+        <details>
+          <summary>Gemini 3.1 Pro &mdash; Condition B (General CLT)</summary>
+          <div class="details-content">
+            <pre>**My Thought Process for Designing Two-Step Equation Examples**
+
+Right, let's craft some effective worked examples for Year 8 students on solving two-step linear equations. My aim, as an experienced teacher, is to make these examples not just *solutions*, but solid learning experiences. I need to keep Cognitive Load Theory (CLT) at the forefront of my mind.
+
+First, I need to understand the request. It's a series of worked examples, solving equations like $3x + 5 = 20$. The target is Year 8 students, so I must start simple and use clear language. The format needs to be concise, step-by-step and should follow all CLT principles.
+
+To achieve this, I'll leverage CLT principles specifically: I'll lean heavily on the Worked Example Effect. This means providing *complete* solutions with annotations, like an expert teacher would do. This helps reduce their cognitive load. I'll also incorporate "fading" by starting with simpler equations and gradually increasing complexity, but maintaining a similar format. Split-attention is the enemy, so the explanations will be right alongside the math, not separated. I'll use bolding and clear layout to guide their attention, signaling key steps, and I'll keep the structure of each example *consistent*, so they learn the process, not just the format.
+
+I'll arrange the examples in increasing difficulty. Example 1 will be basic, positive integers, like $3x + 4 = 19$. Example 2 will introduce subtraction, still with positive integers (e.g., $4y - 7 = 13$). Example 3 will involve division, like $\frac{m}{2} + 5 = 11$, and finally, Example 4 will have either a negative outcome or a negative coefficient. I decided on a negative result to keep it accessible for Year 8 (e.g., $5p + 12 = 2$). I want to provide variety in the types of operations needed to show how the "inverse operation" concept applies regardless of the numbers involved.
+
+For drafting the examples, I'll use a clear, side-by-side format: the equation on one side, and a *brief* explanation or "Think Aloud" prompt next to it. For example 1, I'll start with "Solve $3x + 4 = 19$. Goal: Get *x* by itself." Then, I'll show Step 1, "Subtract 4: $3x = 15$", and Step 2, "Divide by 3: $x = 5$". I'll include a *quick* self-check to encourage that vital habit: "$3(5) + 4 = 19$. Good!" The other examples follow a similar structure.
+
+The layout is key. I'll use a table structure (Markdown works great) to keep the explanations directly beside the math. I'll also start with a "Teacher's Note" to introduce the overarching concept: "Reverse BIDMAS/BODMAS" and the rule of equality: "Whatever you do to one side, you must do to the other." The language will be simple and I'll consistently use "Inverse operation."
+
+I'll then review the draft against my constraints and intentions: experienced teacher tone – check, 4 worked examples – check, Year 8 level – perfectly aligned, and CLT principles applied – absolutely. Finally, I'll add an introduction and conclusion to set the context and ensure the markdown formatting is clean. It's about setting them up for success, so, let's keep it focussed and relevant.</pre>
+          </div>
+        </details>
+
+        <details>
+          <summary>Gemini 3.1 Pro &mdash; Condition C (Specific fading)</summary>
+          <div class="details-content">
+            <pre>**My Thought Process: Designing a Worked Example Fading Sequence for Year 8 Algebra**
+
+Okay, so I'm putting together a worked example sequence for my Year 8s on solving two-step linear equations. We're using the worked example fading effect here, also known as backward fading, and this is based on cognitive load theory. I want to give them four examples to work through, gradually increasing their responsibility for the solution.
+
+First, I need to make sure I understand the core steps: identifying which operation to undo first (addition/subtraction), using inverse operations to isolate the variable, and checking the answer.
+
+I'm starting with a fully worked example ($4x + 7 = 23$). I'll show every step, explaining each one clearly. Next, for the second example ($5y - 3 = 22$), the students will do the very last step. I'll scaffold them by telling them to add 3 to both sides.
+
+For the third example ($2m + 9 = 21$), I'll fade out the last two steps. But I need to adjust this based on the *backward fading* principal. I'll provide the first step for them, then have them complete the execution. I need to make sure they're clear on how to isolate the variable. This will structure it like this:
+
+*   Eq: $2m + 9 = 21$
+*   Step 1: Subtract 9 from both sides. -> $2m = \_\_\_$ (Student fills in 12)
+*   Step 2: ____________ (Student writes: Divide both sides by 2)
+*   Final Answer: $m = \_\_\_$ (Student fills in 6)
+
+The fourth example ($6k - 5 = 19$) is the independent practice. I want to give them a clear prompt to use what they've learned, and I'll see how they go.
+
+The numbers should be friendly (integer solutions only). I'll use bolding, bullet points, and blank spaces to make it visually accessible.
+
+The fading should be: Example 1, 100% teacher. Example 2, 75% teacher, 25% student. Example 3, 25% teacher, 75% student. And Example 4: 0% teacher, 100% student. The worked example fading principle is adhered to.
+
+I'll write an introduction to set the context. I'll also add a brief note on the importance of checking answers because that's good practice. I'll make sure the layout clearly indicates where the student is supposed to write using underscore lines `_______`. I have to be mathematically accurate (using terms like "inverse operations").</pre>
+          </div>
+        </details>
+
+        <!-- Appendix D: Model Outputs -->
+        <h2 id="outputs">Appendix D: Complete model outputs</h2>
+
+        <p>All six model outputs are reproduced below. These are the final outputs (not reasoning traces) as returned by the API.</p>
+
+        <details>
+          <summary>Claude Opus 4.6 &mdash; Condition A (Unprompted) &mdash; Output score: 0</summary>
+          <div class="details-content">
+            <p>Four fully worked examples covering different equation types (addition, subtraction, division, negative answer). Every step is completed by the model. No steps are left for the student. Difficulty varies but scaffolding structure is uniform across all four examples.</p>
+            <p><strong>Key feature:</strong> Includes a "Key Takeaways" summary table at the end. No mention of fading or scaffolding removal.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Claude Opus 4.6 &mdash; Condition B (General CLT) &mdash; Output score: 0</summary>
+          <div class="details-content">
+            <p>Four fully worked examples with explicit CLT design notes for teachers. Sub-goal labelling ("Isolate the term" / "Solve for x"), integrated annotations, and consistent structure. Each example introduces one new element (subtraction, non-whole-number answer).</p>
+            <p><strong>Key feature:</strong> A "Suggested Next Steps" section at the end lists "Completion problems (fading worked examples)" as a future activity. The model knows fading exists and recommends it as a follow-up, but does not implement it in the current set.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Claude Opus 4.6 &mdash; Condition C (Specific fading) &mdash; Output score: 2</summary>
+          <div class="details-content">
+            <p>A correctly faded sequence with a six-step framework. Example 1 is fully worked. Example 2 removes the final two steps. Example 3 removes four steps. Example 4 provides only Step 1 and requires the student to complete all remaining work.</p>
+            <p><strong>Key feature:</strong> Includes a fading summary table showing exactly which steps are "Given" vs. "Student" in each example. Teacher notes reference Sweller &amp; Cooper (1985) and Renkl, Atkinson &amp; Maier (2002).</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Gemini 3.1 Pro &mdash; Condition A (Unprompted) &mdash; Output score: 0</summary>
+          <div class="details-content">
+            <p>Four fully worked examples with an encouraging, teacher-like tone. Covers addition, subtraction, division (fraction), and variable-on-right-side equations. Every step is completed with detailed teacher annotations.</p>
+            <p><strong>Key feature:</strong> Warm, conversational tone ("Don't let the fraction panic you!"). No mention of fading, CLT, or scaffolding removal.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Gemini 3.1 Pro &mdash; Condition B (General CLT) &mdash; Output score: 1</summary>
+          <div class="details-content">
+            <p>Four fully worked examples in a side-by-side table format (mathematical steps alongside teacher explanations). Explicitly names CLT principles: Worked Example Effect, Split-Attention Effect, Signaling/Cueing, and "Gradual Fading (Isolating Elements)."</p>
+            <p><strong>Key feature:</strong> Lists "Gradual Fading" as a principle applied, but defines it as "gradually increase in complexity" rather than scaffolding removal. All four examples have every step completed by the model. Score = 1 (some structural variation via table format) rather than 0, but no steps are left for the student.</p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Gemini 3.1 Pro &mdash; Condition C (Specific fading) &mdash; Output score: 2</summary>
+          <div class="details-content">
+            <p>A correctly faded sequence using backward fading. Example 1 is fully worked. Example 2 leaves the final answer for the student. Example 3 leaves the last two steps plus the answer. Example 4 is fully independent practice with blank spaces for all work.</p>
+            <p><strong>Key feature:</strong> Teacher implementation notes explain the rationale. Alternates between addition and subtraction equations to prevent students from defaulting to one operation.</p>
+          </div>
+        </details>
+
+        <!-- Appendix E: Methodology -->
+        <h2 id="methodology">Appendix E: Methodology document</h2>
+
+        <p>The full methodological plan, including hypotheses, data analysis plan, and implementation details, is available in the project repository as <code>REPORT_4_METHODOLOGY.md</code>.</p>
+
+        <p>Repository: <a href="https://github.com/trgallagher-research/AlignED-research-report-4" target="_blank">github.com/trgallagher-research/AlignED-research-report-4</a></p>
+
+        <!-- Citation -->
+        <h2 id="citation">Citation</h2>
+
+        <div class="citation">Gallagher, T. (2026). Do LLMs fade worked examples? A pilot study of pedagogical reasoning in frontier AI models. AlignED Report 4. https://trgallagher-research.github.io/AlignED-research-report-4/</div>
+
+        <!-- Contact -->
+        <h2 id="contact">Contact</h2>
+
+        <p>For questions about this report or the AlignED benchmark series, contact Thomas Gallagher via <a href="https://github.com/trgallagher-research" target="_blank">GitHub</a>.</p>
+
+        <p>This report is part of the <a href="https://trgallagher-research.github.io/AlignED-research-reports/">AlignED research report series</a>.</p>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="index.html" class="logo" style="color: white;">AlignED</a>
+          <p>Benchmarking AI models for educational practice.</p>
+        </div>
+        <div class="footer-links">
+          <h4>Sections</h4>
+          <ul>
+            <li><a href="introduction.html">Introduction</a></li>
+            <li><a href="methods.html">Methods</a></li>
+            <li><a href="results.html">Results</a></li>
+            <li><a href="discussion.html">Discussion</a></li>
+            <li><a href="appendices.html">Appendices</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>Resources</h4>
+          <ul>
+            <li><a href="#citation">Citation</a></li>
+            <li><a href="https://trgallagher-research.github.io/AlignED-research-reports/">All Reports</a></li>
+            <li><a href="https://github.com/trgallagher-research/AlignED-research-report-4" target="_blank">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+      <p class="copyright">&copy; 2026 AlignED. Last updated: March 2026.</p>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
