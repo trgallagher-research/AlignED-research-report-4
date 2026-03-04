@@ -70,13 +70,13 @@
               <td>Claude Opus 4.6</td>
               <td>Anthropic</td>
               <td>Extended thinking (8K budget)</td>
-              <td>N/A (incompatible with thinking mode)</td>
+              <td>Not settable (blocked by extended thinking)</td>
             </tr>
             <tr>
               <td>Gemini 3.1 Pro</td>
               <td>Google</td>
               <td>Thinking traces (8K budget)</td>
-              <td>N/A (omitted with thinkingConfig)</td>
+              <td>1.0 (default; not modified)</td>
             </tr>
           </tbody>
         </table>
@@ -188,7 +188,7 @@
 
         <ul>
           <li><strong>Two models, one task, one principle.</strong> Findings describe these two models on this task at this point in time. They do not generalise to LLMs broadly, to other CLT principles, or to other educational tasks.</li>
-          <li><strong>One run per condition.</strong> With no temperature control (both models' thinking modes are incompatible with temperature settings), outputs may vary across runs. This pilot prioritised access to reasoning traces over strict reproducibility.</li>
+          <li><strong>One run per condition.</strong> Claude's extended thinking mode blocks the temperature parameter entirely. Gemini's thinking mode allows temperature but Google recommends keeping it at the default (1.0). Neither model was run with a fixed low temperature, so outputs may vary across runs.</li>
           <li><strong>No human baseline.</strong> We do not know how human teachers or instructional designers would respond to these prompts. Without this baseline, we cannot say whether model performance is good or poor in absolute terms.</li>
           <li><strong>The prompt asks for "full worked solutions."</strong> Condition A creates a deliberate tension with fading. A model that complies literally is not necessarily ignorant of fading. It may be prioritising instruction-following over pedagogical judgement. This is an interpretation consideration, not a flaw: the tension is part of what we are testing.</li>
           <li><strong>Single-turn only.</strong> A teacher might follow up with "can you fade the scaffolding?" This study captures only the first-pass response.</li>
