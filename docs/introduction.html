@@ -43,13 +43,13 @@
 
         <p>Worked examples are a staple of mathematics instruction: a problem is presented, and a step-by-step solution is shown for students to study. Data from the OECD's 2024 Teaching and Learning International Survey (TALIS) shows that 41% of lower secondary teachers across participating countries have used AI for professional tasks. Generating instructional materials is a plausible use case within that figure, though we do not have specific data on how often teachers prompt LLMs for worked examples.</p>
 
-        <p>Whether or not this is already common practice, it is a reasonable thing for a teacher to do. The question, then, is whether the outputs models produce reflect what the evidence base says about how worked examples should be designed.</p>
+        <p>Whether or not this is already common practice, it is a reasonable thing for a teacher to do. The question is whether the outputs models produce reflect what the evidence base says about how worked examples should be designed.</p>
 
         <h2>The fading effect</h2>
 
         <p>Cognitive load theory (CLT) is one of the most influential frameworks in instructional design. Among its best-established findings is the <strong>worked example fading effect</strong>: instructional sequences should begin with fully worked examples and progressively remove solution steps so that learners gradually take over the problem-solving process. By the end of the sequence, the student is solving problems independently.</p>
 
-        <p>This is distinct from simply making problems harder. Fading means removing scaffolding. A sequence of four equations that get progressively more difficult, each with every step shown, is not fading. A sequence where the first example shows all steps, the second omits the final step for the student to complete, the third omits more steps, and the fourth is a practice problem with no steps shown: that is fading.</p>
+        <p>This is distinct from simply making problems harder. Fading means removing scaffolding. Four equations that get progressively more difficult, each with every step shown, would not count as fading. A faded sequence looks different: the first example shows all steps, the second omits the final step for the student to complete, the third omits more steps, and the fourth is a practice problem with no steps shown.</p>
 
         <p>The distinction matters because difficulty progression and scaffolding removal are different instructional mechanisms. Harder problems with full solutions maintain the same cognitive load structure. Fading deliberately shifts cognitive work from the example to the learner, which is the mechanism through which worked examples transition into independent practice.</p>
 
@@ -63,7 +63,7 @@
           <li><strong>Specific fading:</strong> When the prompt names and defines the fading effect, does the model implement it correctly?</li>
         </ol>
 
-        <p>These three conditions form a prompting gradient. The gap between Condition B (general CLT) and Condition C (specific fading) is where the interesting finding lies: models may know about fading without applying it, unless told exactly what to do.</p>
+        <p>These three conditions form a prompting gradient. The comparison between Condition B and Condition C is particularly informative, because it tests whether models that know about fading will actually apply it without being told the specific principle by name.</p>
 
         <h2>Why this matters for teachers</h2>
 
