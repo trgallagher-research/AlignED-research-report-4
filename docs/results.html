@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <!-- Chart.js removed: dumbbell chart is now pure HTML/CSS -->
 </head>
 <body data-page="results">
   <!-- Navigation -->
@@ -49,34 +49,154 @@
         </ul>
       </div>
 
-      <!-- Dumbbell Chart -->
+      <!-- Dumbbell Chart (pure HTML/CSS) -->
       <div class="chart-section" id="scores">
         <div class="chart-header">
           <div class="chart-title">Output and trace scores by model and condition</div>
           <div class="chart-subtitle">Each row shows two scores: whether the output implemented fading (blue) and whether the reasoning trace referenced it (terracotta). The connecting line shows the gap. Highlighted rows are Condition B, where the gap is largest.</div>
         </div>
-        <div class="chart-key" style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 0.75rem; font-family: var(--font-sans); font-size: 0.85rem;">
-          <div style="display: flex; align-items: center; gap: 0.4rem;">
-            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #3B6B9A;"></span>
+
+        <!-- Legend -->
+        <div class="dumbbell-legend">
+          <div class="dumbbell-legend-item">
+            <span class="dumbbell-legend-dot" style="background: #3B6B9A;"></span>
             Output score
           </div>
-          <div style="display: flex; align-items: center; gap: 0.4rem;">
-            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #B67D5C;"></span>
+          <div class="dumbbell-legend-item">
+            <span class="dumbbell-legend-dot" style="background: #B67D5C;"></span>
             Trace score
           </div>
-          <div style="display: flex; align-items: center; gap: 0.4rem;">
-            <span style="display: inline-block; width: 20px; height: 3px; background: #C0BDB7; border-radius: 2px;"></span>
+          <div class="dumbbell-legend-item">
+            <span class="dumbbell-legend-line"></span>
             Gap
           </div>
-          <div style="display: flex; align-items: center; gap: 0.4rem;">
-            <span style="display: inline-block; width: 16px; height: 12px; background: rgba(254, 243, 199, 0.7); border: 1px solid #E8E4DF;"></span>
+          <div class="dumbbell-legend-item">
+            <span class="dumbbell-legend-highlight"></span>
             Condition B (highlighted)
           </div>
         </div>
-        <div class="chart-container" style="height: 380px;">
-          <canvas id="chart-dumbbell"></canvas>
+
+        <!-- The chart itself -->
+        <div class="dumbbell-chart">
+
+          <!-- X-axis header (score labels) -->
+          <div class="dumbbell-row dumbbell-axis-header">
+            <div class="dumbbell-label"></div>
+            <div class="dumbbell-track">
+              <span class="dumbbell-axis-tick" style="left: 0%;">0</span>
+              <span class="dumbbell-axis-tick" style="left: 50%;">1</span>
+              <span class="dumbbell-axis-tick" style="left: 100%;">2</span>
+            </div>
+          </div>
+
+          <!-- Model group: Claude -->
+          <div class="dumbbell-group-label">Claude Opus 4.6</div>
+
+          <!-- Claude A -->
+          <div class="dumbbell-row">
+            <div class="dumbbell-label">A: Unprompted</div>
+            <div class="dumbbell-track">
+              <div class="dumbbell-gridline" style="left: 0%;"></div>
+              <div class="dumbbell-gridline" style="left: 50%;"></div>
+              <div class="dumbbell-gridline" style="left: 100%;"></div>
+              <!-- output=0, trace=0: both at 0%, no visible line -->
+              <div class="dumbbell-connector" style="left: 0%; width: 0%;"></div>
+              <div class="dumbbell-dot dumbbell-dot-output" style="left: 0%;" title="Output: 0"></div>
+              <div class="dumbbell-dot dumbbell-dot-trace" style="left: 0%;" title="Trace: 0"></div>
+            </div>
+            <div class="dumbbell-values"><span class="val-output">0</span> / <span class="val-trace">0</span></div>
+          </div>
+
+          <!-- Claude B (highlighted) -->
+          <div class="dumbbell-row dumbbell-row-highlight">
+            <div class="dumbbell-label">B: General CLT</div>
+            <div class="dumbbell-track">
+              <div class="dumbbell-gridline" style="left: 0%;"></div>
+              <div class="dumbbell-gridline" style="left: 50%;"></div>
+              <div class="dumbbell-gridline" style="left: 100%;"></div>
+              <!-- output=0, trace=2: line from 0% to 100% -->
+              <div class="dumbbell-connector" style="left: 0%; width: 100%;"></div>
+              <div class="dumbbell-dot dumbbell-dot-output" style="left: 0%;" title="Output: 0"></div>
+              <div class="dumbbell-dot dumbbell-dot-trace" style="left: 100%;" title="Trace: 2"></div>
+            </div>
+            <div class="dumbbell-values"><span class="val-output">0</span> / <span class="val-trace">2</span></div>
+          </div>
+
+          <!-- Claude C -->
+          <div class="dumbbell-row">
+            <div class="dumbbell-label">C: Specific fading</div>
+            <div class="dumbbell-track">
+              <div class="dumbbell-gridline" style="left: 0%;"></div>
+              <div class="dumbbell-gridline" style="left: 50%;"></div>
+              <div class="dumbbell-gridline" style="left: 100%;"></div>
+              <!-- output=2, trace=1: line from 50% to 100% -->
+              <div class="dumbbell-connector" style="left: 50%; width: 50%;"></div>
+              <div class="dumbbell-dot dumbbell-dot-trace" style="left: 50%;" title="Trace: 1"></div>
+              <div class="dumbbell-dot dumbbell-dot-output" style="left: 100%;" title="Output: 2"></div>
+            </div>
+            <div class="dumbbell-values"><span class="val-output">2</span> / <span class="val-trace">1</span></div>
+          </div>
+
+          <!-- Separator between models -->
+          <div class="dumbbell-separator"></div>
+
+          <!-- Model group: Gemini -->
+          <div class="dumbbell-group-label">Gemini 3.1 Pro</div>
+
+          <!-- Gemini A -->
+          <div class="dumbbell-row">
+            <div class="dumbbell-label">A: Unprompted</div>
+            <div class="dumbbell-track">
+              <div class="dumbbell-gridline" style="left: 0%;"></div>
+              <div class="dumbbell-gridline" style="left: 50%;"></div>
+              <div class="dumbbell-gridline" style="left: 100%;"></div>
+              <!-- output=0, trace=0 -->
+              <div class="dumbbell-connector" style="left: 0%; width: 0%;"></div>
+              <div class="dumbbell-dot dumbbell-dot-output" style="left: 0%;" title="Output: 0"></div>
+              <div class="dumbbell-dot dumbbell-dot-trace" style="left: 0%;" title="Trace: 0"></div>
+            </div>
+            <div class="dumbbell-values"><span class="val-output">0</span> / <span class="val-trace">0</span></div>
+          </div>
+
+          <!-- Gemini B (highlighted) -->
+          <div class="dumbbell-row dumbbell-row-highlight">
+            <div class="dumbbell-label">B: General CLT</div>
+            <div class="dumbbell-track">
+              <div class="dumbbell-gridline" style="left: 0%;"></div>
+              <div class="dumbbell-gridline" style="left: 50%;"></div>
+              <div class="dumbbell-gridline" style="left: 100%;"></div>
+              <!-- output=1, trace=2: line from 50% to 100% -->
+              <div class="dumbbell-connector" style="left: 50%; width: 50%;"></div>
+              <div class="dumbbell-dot dumbbell-dot-output" style="left: 50%;" title="Output: 1"></div>
+              <div class="dumbbell-dot dumbbell-dot-trace" style="left: 100%;" title="Trace: 2"></div>
+            </div>
+            <div class="dumbbell-values"><span class="val-output">1</span> / <span class="val-trace">2</span></div>
+          </div>
+
+          <!-- Gemini C -->
+          <div class="dumbbell-row">
+            <div class="dumbbell-label">C: Specific fading</div>
+            <div class="dumbbell-track">
+              <div class="dumbbell-gridline" style="left: 0%;"></div>
+              <div class="dumbbell-gridline" style="left: 50%;"></div>
+              <div class="dumbbell-gridline" style="left: 100%;"></div>
+              <!-- output=2, trace=2: both at 100% -->
+              <div class="dumbbell-connector" style="left: 100%; width: 0%;"></div>
+              <div class="dumbbell-dot dumbbell-dot-output" style="left: 100%;" title="Output: 2"></div>
+              <div class="dumbbell-dot dumbbell-dot-trace" style="left: 100%;" title="Trace: 2"></div>
+            </div>
+            <div class="dumbbell-values"><span class="val-output">2</span> / <span class="val-trace">2</span></div>
+          </div>
+
+          <!-- X-axis footer label -->
+          <div class="dumbbell-row dumbbell-axis-footer">
+            <div class="dumbbell-label"></div>
+            <div class="dumbbell-track-label">Score (0&ndash;2)</div>
+          </div>
+
         </div>
-        <p class="text-muted mt-2" style="font-family: var(--font-sans); font-size: 0.8rem;">Pilot data: single response per condition. Scores: 0 = absent/uniform, 1 = partial, 2 = full implementation or explicit reference.</p>
+
+        <p class="text-muted mt-2" style="font-family: var(--font-sans); font-size: 0.8rem;">Pilot data: single response per condition. Scores: 0 = absent/uniform, 1 = partial, 2 = full implementation or explicit reference. Values shown as output / trace.</p>
         <div class="observations">
           <strong>Observations:</strong>
           <ul>

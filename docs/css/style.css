@@ -849,6 +849,232 @@ footer .container {
   color: var(--primary);
 }
 
+/* ── Dumbbell Chart (pure HTML/CSS) ── */
+
+/* Legend row above the chart */
+.dumbbell-legend {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--text);
+}
+
+.dumbbell-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dumbbell-legend-dot {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dumbbell-legend-line {
+  display: inline-block;
+  width: 20px;
+  height: 3px;
+  background: #C0BDB7;
+  border-radius: 2px;
+}
+
+.dumbbell-legend-highlight {
+  display: inline-block;
+  width: 16px;
+  height: 12px;
+  background: rgba(254, 243, 199, 0.7);
+  border: 1px solid #E8E4DF;
+}
+
+/* Chart wrapper */
+.dumbbell-chart {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem 1.5rem 0.75rem;
+}
+
+/* Model group header (e.g. "Claude Opus 4.6") */
+.dumbbell-group-label {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 0.6rem 0 0.15rem;
+}
+
+/* Separator line between model groups */
+.dumbbell-separator {
+  border-top: 1px solid var(--border);
+  margin: 0.5rem 0 0.25rem;
+}
+
+/* Each data row: label | track | values */
+.dumbbell-row {
+  display: grid;
+  grid-template-columns: 160px 1fr 60px;
+  align-items: center;
+  padding: 0.45rem 0;
+  gap: 0.75rem;
+  border-radius: 4px;
+}
+
+/* Highlighted Condition B rows */
+.dumbbell-row-highlight {
+  background: rgba(254, 243, 199, 0.5);
+  margin: 0 -0.5rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+/* Row label (condition name) */
+.dumbbell-label {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* The track area where dots and connector live */
+.dumbbell-track {
+  position: relative;
+  height: 24px;
+  /* Inset the usable area so dots don't get clipped at 0% and 100% */
+  margin: 0 8px;
+}
+
+/* Faint vertical gridlines at 0, 1, 2 */
+.dumbbell-gridline {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: rgba(0, 0, 0, 0.06);
+}
+
+/* Connecting line between the two dots */
+.dumbbell-connector {
+  position: absolute;
+  top: 50%;
+  height: 3px;
+  margin-top: -1.5px;
+  background: #C0BDB7;
+  border-radius: 2px;
+}
+
+/* Dots */
+.dumbbell-dot {
+  position: absolute;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  margin-top: -7px;
+  margin-left: -7px;
+  z-index: 2;
+  border: 2px solid var(--surface);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.12);
+}
+
+.dumbbell-dot-output {
+  background: #3B6B9A;
+}
+
+.dumbbell-dot-trace {
+  background: #B67D5C;
+}
+
+/* Numeric values column (output / trace) */
+.dumbbell-values {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dumbbell-values .val-output {
+  color: #3B6B9A;
+  font-weight: 600;
+}
+
+.dumbbell-values .val-trace {
+  color: #B67D5C;
+  font-weight: 600;
+}
+
+/* Axis header row (score tick labels) */
+.dumbbell-axis-header {
+  padding-bottom: 0.25rem;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 0.25rem;
+}
+
+.dumbbell-axis-header .dumbbell-track {
+  height: 16px;
+}
+
+.dumbbell-axis-tick {
+  position: absolute;
+  top: 0;
+  transform: translateX(-50%);
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Axis footer label ("Score (0-2)") */
+.dumbbell-axis-footer {
+  padding-top: 0.15rem;
+}
+
+.dumbbell-track-label {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Responsive: stack labels above tracks on narrow screens */
+@media (max-width: 520px) {
+  .dumbbell-row {
+    grid-template-columns: 1fr 50px;
+    grid-template-rows: auto auto;
+  }
+
+  .dumbbell-label {
+    grid-column: 1 / -1;
+    padding-bottom: 0;
+  }
+
+  .dumbbell-track {
+    grid-column: 1;
+  }
+
+  .dumbbell-values {
+    grid-column: 2;
+  }
+
+  .dumbbell-axis-header {
+    grid-template-columns: 1fr;
+  }
+
+  .dumbbell-axis-header .dumbbell-label {
+    display: none;
+  }
+}
+
 /* ── Observations list (for Results page) ── */
 .observations {
   margin-top: 1rem;
