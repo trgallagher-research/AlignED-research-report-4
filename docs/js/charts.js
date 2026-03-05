@@ -17,33 +17,54 @@ document.addEventListener('DOMContentLoaded', function() {
   var TRACE_COLOUR = '#B67D5C';
   var LINE_COLOUR = '#C0BDB7';
 
-  /* Row labels (bottom to top, since Chart.js y-axis goes upward) */
-  var labels = [
-    'Gemini — C: Specific fading',
-    'Gemini — B: General CLT',
-    'Gemini — A: Unprompted',
-    'Claude — C: Specific fading',
-    'Claude — B: General CLT',
-    'Claude — A: Unprompted'
-  ];
+  /*
+   * Row layout (bottom to top on chart):
+   * 0: Claude — A: Unprompted
+   * 1: Claude — B: General CLT        (highlighted)
+   * 2: Claude — C: Specific fading
+   * 3: (gap between model groups)
+   * 4: Gemini — A: Unprompted
+   * 5: Gemini — B: General CLT         (highlighted)
+   * 6: Gemini — C: Specific fading
+   */
+  var ROW_COUNT = 7;
+  var GAP_ROW = 3;
 
-  /* Scores: [output, trace] for each row (same order as labels) */
-  var data = [
-    { output: 2, trace: 2 },  /* Gemini C */
-    { output: 1, trace: 2 },  /* Gemini B */
-    { output: 0, trace: 0 },  /* Gemini A */
-    { output: 2, trace: 1 },  /* Claude C */
-    { output: 0, trace: 2 },  /* Claude B */
-    { output: 0, trace: 0 }   /* Claude A */
-  ];
+  /* Labels keyed by row index */
+  var rowLabels = {
+    0: 'A: Unprompted',
+    1: 'B: General CLT',
+    2: 'C: Specific fading',
+    4: 'A: Unprompted',
+    5: 'B: General CLT',
+    6: 'C: Specific fading'
+  };
 
-  /* Build scatter datasets for output dots and trace dots */
-  var outputPoints = data.map(function(d, i) { return { x: d.output, y: i }; });
-  var tracePoints = data.map(function(d, i) { return { x: d.trace, y: i }; });
+  /* Data keyed by row index: { output, trace } */
+  var rowData = {
+    0: { output: 0, trace: 0 },  /* Claude A */
+    1: { output: 0, trace: 2 },  /* Claude B */
+    2: { output: 2, trace: 1 },  /* Claude C */
+    4: { output: 0, trace: 0 },  /* Gemini A */
+    5: { output: 1, trace: 2 },  /* Gemini B */
+    6: { output: 2, trace: 2 }   /* Gemini C */
+  };
+
+  /* Condition B rows for highlighting */
+  var HIGHLIGHT_ROWS = [1, 5];
+
+  /* Build scatter points */
+  var outputPoints = [];
+  var tracePoints = [];
+  Object.keys(rowData).forEach(function(key) {
+    var i = parseInt(key);
+    var d = rowData[i];
+    outputPoints.push({ x: d.output, y: i });
+    tracePoints.push({ x: d.trace, y: i });
+  });
 
   /**
-   * Custom plugin to draw connecting lines between output and trace dots.
-   * This runs before the scatter points are drawn so dots sit on top of lines.
+   * Plugin: draw connecting lines between output and trace dots.
    */
   var dumbbellLinePlugin = {
     id: 'dumbbellLines',
@@ -57,7 +78,9 @@ document.addEventListener('DOMContentLoaded', function() {
       ctx.lineWidth = 3;
       ctx.lineCap = 'round';
 
-      data.forEach(function(d, i) {
+      Object.keys(rowData).forEach(function(key) {
+        var i = parseInt(key);
+        var d = rowData[i];
         var x1 = xScale.getPixelForValue(d.output);
         var x2 = xScale.getPixelForValue(d.trace);
         var y = yScale.getPixelForValue(i);
@@ -73,24 +96,21 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   /**
-   * Custom plugin to highlight the Condition B rows with a subtle
-   * background band, drawing the eye to the knowledge-application gap.
+   * Plugin: highlight Condition B rows and draw model group labels.
    */
-  var highlightPlugin = {
-    id: 'conditionBHighlight',
+  var annotationPlugin = {
+    id: 'annotations',
     beforeDraw: function(chart) {
       var ctx = chart.ctx;
       var yScale = chart.scales.y;
       var chartArea = chart.chartArea;
-
-      /* Condition B rows are at index 1 (Gemini B) and 4 (Claude B) */
-      var highlightRows = [1, 4];
       var bandHeight = 28;
 
       ctx.save();
-      ctx.fillStyle = 'rgba(254, 243, 199, 0.45)';
 
-      highlightRows.forEach(function(rowIndex) {
+      /* Highlight Condition B rows */
+      ctx.fillStyle = 'rgba(254, 243, 199, 0.5)';
+      HIGHLIGHT_ROWS.forEach(function(rowIndex) {
         var yPixel = yScale.getPixelForValue(rowIndex);
         ctx.fillRect(
           chartArea.left,
@@ -99,6 +119,28 @@ document.addEventListener('DOMContentLoaded', function() {
           bandHeight
         );
       });
+
+      /* Draw model group labels on the left */
+      ctx.font = "600 13px 'Inter', sans-serif";
+      ctx.fillStyle = '#3B6B9A';
+      ctx.textAlign = 'left';
+
+      /* "Claude Opus 4.6" label, positioned to the left of the chart area */
+      var claudeY = yScale.getPixelForValue(1);
+      ctx.fillText('Claude Opus 4.6', 8, claudeY - 42);
+
+      /* "Gemini 3.1 Pro" label */
+      var geminiY = yScale.getPixelForValue(5);
+      ctx.fillText('Gemini 3.1 Pro', 8, geminiY - 42);
+
+      /* Draw a thin separator line at the gap row */
+      var gapY = yScale.getPixelForValue(GAP_ROW);
+      ctx.strokeStyle = '#E8E4DF';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(chartArea.left, gapY);
+      ctx.lineTo(chartArea.right, gapY);
+      ctx.stroke();
 
       ctx.restore();
     }
@@ -131,7 +173,12 @@ document.addEventListener('DOMContentLoaded', function() {
     options: {
       responsive: true,
       maintainAspectRatio: false,
-      indexAxis: 'y',
+      layout: {
+        padding: {
+          left: 10,
+          top: 10
+        }
+      },
       scales: {
         x: {
           min: -0.2,
@@ -158,12 +205,12 @@ document.addEventListener('DOMContentLoaded', function() {
         y: {
           type: 'linear',
           min: -0.5,
-          max: 5.5,
+          max: ROW_COUNT - 0.5,
           reverse: false,
           ticks: {
             stepSize: 1,
             callback: function(value) {
-              return labels[value] || '';
+              return rowLabels[value] || '';
             },
             font: { family: "'Inter', sans-serif", size: 12 },
             color: '#2D3748'
@@ -190,7 +237,8 @@ document.addEventListener('DOMContentLoaded', function() {
             title: function(items) {
               if (items.length > 0) {
                 var rowIndex = items[0].parsed.y;
-                return labels[rowIndex] || '';
+                var modelName = rowIndex <= 2 ? 'Claude Opus 4.6' : 'Gemini 3.1 Pro';
+                return modelName + ' — ' + (rowLabels[rowIndex] || '');
               }
               return '';
             },
@@ -201,6 +249,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     },
-    plugins: [dumbbellLinePlugin, highlightPlugin]
+    plugins: [dumbbellLinePlugin, annotationPlugin]
   });
 });
