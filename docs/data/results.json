@@ -8,16 +8,16 @@
       {"id": "gemini_3_1_pro", "label": "Gemini 3.1 Pro", "provider": "Google"}
     ],
     "conditions": [
-      {"id": "A_unprompted", "label": "A: Unprompted"},
+      {"id": "A_baseline", "label": "A: Baseline"},
       {"id": "B_general_clt", "label": "B: General CLT"},
       {"id": "C_specific_fading", "label": "C: Specific fading"}
     ]
   },
   "scores": [
-    {"model": "claude_opus_4_6", "condition": "A_unprompted", "output_score": 0, "trace_score": 0},
+    {"model": "claude_opus_4_6", "condition": "A_baseline", "output_score": 0, "trace_score": 0},
     {"model": "claude_opus_4_6", "condition": "B_general_clt", "output_score": 0, "trace_score": 2},
     {"model": "claude_opus_4_6", "condition": "C_specific_fading", "output_score": 2, "trace_score": 1},
-    {"model": "gemini_3_1_pro", "condition": "A_unprompted", "output_score": 0, "trace_score": 0},
+    {"model": "gemini_3_1_pro", "condition": "A_baseline", "output_score": 0, "trace_score": 0},
     {"model": "gemini_3_1_pro", "condition": "B_general_clt", "output_score": 1, "trace_score": 2},
     {"model": "gemini_3_1_pro", "condition": "C_specific_fading", "output_score": 2, "trace_score": 2}
   ]
