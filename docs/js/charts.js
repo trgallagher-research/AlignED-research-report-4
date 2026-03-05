@@ -30,12 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var ROW_COUNT = 7;
   var GAP_ROW = 3;
 
-  /* Labels keyed by row index */
+  /* Labels keyed by row index.
+   * Returning an array from the tick callback creates multi-line labels.
+   * The first row of each model group gets the model name on its own line. */
   var rowLabels = {
-    0: 'A: Unprompted',
+    0: ['Claude Opus 4.6', 'A: Unprompted'],
     1: 'B: General CLT',
     2: 'C: Specific fading',
-    4: 'A: Unprompted',
+    4: ['Gemini 3.1 Pro', 'A: Unprompted'],
     5: 'B: General CLT',
     6: 'C: Specific fading'
   };
@@ -120,19 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
         );
       });
 
-      /* Draw model group labels on the left */
-      ctx.font = "600 13px 'Inter', sans-serif";
-      ctx.fillStyle = '#3B6B9A';
-      ctx.textAlign = 'left';
-
-      /* "Claude Opus 4.6" label, positioned to the left of the chart area */
-      var claudeY = yScale.getPixelForValue(1);
-      ctx.fillText('Claude Opus 4.6', 8, claudeY - 42);
-
-      /* "Gemini 3.1 Pro" label */
-      var geminiY = yScale.getPixelForValue(5);
-      ctx.fillText('Gemini 3.1 Pro', 8, geminiY - 42);
-
       /* Draw a thin separator line at the gap row */
       var gapY = yScale.getPixelForValue(GAP_ROW);
       ctx.strokeStyle = '#E8E4DF';
@@ -175,8 +164,8 @@ document.addEventListener('DOMContentLoaded', function() {
       maintainAspectRatio: false,
       layout: {
         padding: {
-          left: 10,
-          top: 10
+          left: 5,
+          top: 15
         }
       },
       scales: {
@@ -212,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function() {
             callback: function(value) {
               return rowLabels[value] || '';
             },
-            font: { family: "'Inter', sans-serif", size: 12 },
+            font: { family: "'Inter', sans-serif", size: 12, weight: '600' },
             color: '#2D3748'
           },
           grid: {
@@ -238,7 +227,10 @@ document.addEventListener('DOMContentLoaded', function() {
               if (items.length > 0) {
                 var rowIndex = items[0].parsed.y;
                 var modelName = rowIndex <= 2 ? 'Claude Opus 4.6' : 'Gemini 3.1 Pro';
-                return modelName + ' — ' + (rowLabels[rowIndex] || '');
+                var label = rowLabels[rowIndex];
+                /* For rows with array labels, use the condition part (second element) */
+                var conditionLabel = Array.isArray(label) ? label[1] : label;
+                return modelName + ' — ' + (conditionLabel || '');
               }
               return '';
             },
