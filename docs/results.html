@@ -42,68 +42,37 @@
       <div class="jump-links mt-3">
         <h3>On this page</h3>
         <ul>
-          <li><a href="#output-scores">Output scores</a></li>
-          <li><a href="#trace-scores">Trace scores</a></li>
-          <li><a href="#concordance">Output-trace concordance</a></li>
+          <li><a href="#scores">Output and trace scores</a></li>
+          <li><a href="#concordance">Concordance table</a></li>
           <li><a href="#condition-b">The Condition B finding</a></li>
           <li><a href="#trace-excerpts">Key trace excerpts</a></li>
         </ul>
       </div>
 
-      <!-- Model Legend -->
-      <div class="provider-legend">
-        <div class="legend-item">
-          <span class="legend-dot" style="background: #3B6B9A;"></span>
-          Claude Opus 4.6 (Anthropic)
-        </div>
-        <div class="legend-item">
-          <span class="legend-dot" style="background: #B67D5C;"></span>
-          Gemini 3.1 Pro (Google)
-        </div>
-      </div>
-
-      <!-- Chart 1: Output Scores -->
-      <div class="chart-section" id="output-scores">
+      <!-- Dumbbell Chart -->
+      <div class="chart-section" id="scores">
         <div class="chart-header">
-          <div class="chart-title">Output structure scores by condition</div>
-          <div class="chart-subtitle">Did the model's output implement fading? (0 = uniform, 1 = some variation, 2 = progressive scaffolding removal)</div>
+          <div class="chart-title">Output and trace scores by model and condition</div>
+          <div class="chart-subtitle">Each row shows two scores: whether the output implemented fading (blue) and whether the reasoning trace referenced it (terracotta). The connecting line shows the gap. Highlighted rows are Condition B, where the gap is largest.</div>
         </div>
-        <div class="chart-container">
-          <canvas id="chart-output-scores"></canvas>
+        <div class="chart-container" style="height: 380px;">
+          <canvas id="chart-dumbbell"></canvas>
         </div>
+        <p class="text-muted mt-2" style="font-family: var(--font-sans); font-size: 0.8rem;">Pilot data: single response per condition. Scores: 0 = absent/uniform, 1 = partial, 2 = full implementation or explicit reference.</p>
         <div class="observations">
           <strong>Observations:</strong>
           <ul>
-            <li>Neither model applied fading when unprompted (Condition A). Both produced four uniform, fully worked examples.</li>
-            <li>Gemini scored 1 in Condition B (some structural variation) but did not leave steps for the student. Claude scored 0.</li>
-            <li>Both models scored 2 in Condition C, producing correctly faded sequences with steps explicitly left for the student.</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Chart 2: Trace Scores -->
-      <div class="chart-section" id="trace-scores">
-        <div class="chart-header">
-          <div class="chart-title">Reasoning trace scores by condition</div>
-          <div class="chart-subtitle">Did the model's reasoning trace reference fading? (0 = absent, 1 = implicit logic, 2 = explicit reference)</div>
-        </div>
-        <div class="chart-container">
-          <canvas id="chart-trace-scores"></canvas>
-        </div>
-        <div class="observations">
-          <strong>Observations:</strong>
-          <ul>
-            <li>Neither model's trace referenced fading in Condition A. Reasoning was about content coverage and equation variety.</li>
-            <li>Both models scored 2 in Condition B: their traces explicitly named CLT constructs including fading. This is the headline finding.</li>
-            <li>In Condition C, Gemini's trace was richer (scored 2, named "backward fading" and planned percentage allocations). Claude's trace was more procedural (scored 1, restated the fading structure without formal terminology).</li>
+            <li>In Condition A, both dots overlap at zero for both models. Neither the output nor the trace referenced fading.</li>
+            <li>In Condition B, the long connecting lines show the knowledge-application gap. Both models' traces scored 2 (explicit CLT references including fading) while their outputs scored 0 or 1 (no actual fading implemented).</li>
+            <li>In Condition C, the dots sit close together or overlap at the top of the scale. Both models implemented fading correctly when told what it is.</li>
           </ul>
         </div>
       </div>
 
       <!-- Concordance Table -->
       <div class="section-divider" id="concordance">
-        <h2>Output-trace concordance</h2>
-        <p>Comparing what the model produced (output) with what it reasoned about (trace)</p>
+        <h2>Concordance table</h2>
+        <p>Exact scores for each model-condition pair</p>
       </div>
 
       <table>
