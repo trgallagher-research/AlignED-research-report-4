@@ -55,7 +55,25 @@
           <div class="chart-title">Output and trace scores by model and condition</div>
           <div class="chart-subtitle">Each row shows two scores: whether the output implemented fading (blue) and whether the reasoning trace referenced it (terracotta). The connecting line shows the gap. Highlighted rows are Condition B, where the gap is largest.</div>
         </div>
-        <div class="chart-container" style="height: 420px;">
+        <div class="chart-key" style="display: flex; gap: 2rem; flex-wrap: wrap; margin-bottom: 0.75rem; font-family: var(--font-sans); font-size: 0.85rem;">
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #3B6B9A;"></span>
+            Output score
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: #B67D5C;"></span>
+            Trace score
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 20px; height: 3px; background: #C0BDB7; border-radius: 2px;"></span>
+            Gap
+          </div>
+          <div style="display: flex; align-items: center; gap: 0.4rem;">
+            <span style="display: inline-block; width: 16px; height: 12px; background: rgba(254, 243, 199, 0.7); border: 1px solid #E8E4DF;"></span>
+            Condition B (highlighted)
+          </div>
+        </div>
+        <div class="chart-container" style="height: 380px;">
           <canvas id="chart-dumbbell"></canvas>
         </div>
         <p class="text-muted mt-2" style="font-family: var(--font-sans); font-size: 0.8rem;">Pilot data: single response per condition. Scores: 0 = absent/uniform, 1 = partial, 2 = full implementation or explicit reference.</p>

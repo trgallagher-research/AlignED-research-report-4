@@ -4,6 +4,8 @@
  * The connecting line between dots encodes the knowledge-application gap.
  *
  * Data: 2 models x 3 conditions, scored on output (0-2) and trace (0-2).
+ * Legend is rendered as HTML above the chart. The chart's built-in legend
+ * is disabled to avoid duplication.
  */
 document.addEventListener('DOMContentLoaded', function() {
   /* Only render on the results page */
@@ -30,16 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
   var ROW_COUNT = 7;
   var GAP_ROW = 3;
 
-  /* Labels keyed by row index.
-   * Returning an array from the tick callback creates multi-line labels.
-   * The first row of each model group gets the model name on its own line. */
+  /* Full labels for each row, displayed on the y-axis */
   var rowLabels = {
-    0: ['Claude Opus 4.6', 'A: Unprompted'],
-    1: 'B: General CLT',
-    2: 'C: Specific fading',
-    4: ['Gemini 3.1 Pro', 'A: Unprompted'],
-    5: 'B: General CLT',
-    6: 'C: Specific fading'
+    0: 'Claude — A: Unprompted',
+    1: 'Claude — B: General CLT',
+    2: 'Claude — C: Specific fading',
+    4: 'Gemini — A: Unprompted',
+    5: 'Gemini — B: General CLT',
+    6: 'Gemini — C: Specific fading'
   };
 
   /* Data keyed by row index: { output, trace } */
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function() {
   };
 
   /**
-   * Plugin: highlight Condition B rows and draw model group labels.
+   * Plugin: highlight Condition B rows and draw separator line.
    */
   var annotationPlugin = {
     id: 'annotations',
@@ -164,8 +164,7 @@ document.addEventListener('DOMContentLoaded', function() {
       maintainAspectRatio: false,
       layout: {
         padding: {
-          left: 5,
-          top: 15
+          top: 10
         }
       },
       scales: {
@@ -201,7 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
             callback: function(value) {
               return rowLabels[value] || '';
             },
-            font: { family: "'Inter', sans-serif", size: 12, weight: '600' },
+            font: { family: "'Inter', sans-serif", size: 12 },
             color: '#2D3748'
           },
           grid: {
@@ -210,14 +209,9 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       },
       plugins: {
+        /* Disable built-in legend — we use the HTML key above the chart */
         legend: {
-          position: 'top',
-          labels: {
-            font: { family: "'Inter', sans-serif", size: 13 },
-            usePointStyle: true,
-            pointStyle: 'circle',
-            padding: 20
-          }
+          display: false
         },
         tooltip: {
           titleFont: { family: "'Inter', sans-serif" },
@@ -226,11 +220,7 @@ document.addEventListener('DOMContentLoaded', function() {
             title: function(items) {
               if (items.length > 0) {
                 var rowIndex = items[0].parsed.y;
-                var modelName = rowIndex <= 2 ? 'Claude Opus 4.6' : 'Gemini 3.1 Pro';
-                var label = rowLabels[rowIndex];
-                /* For rows with array labels, use the condition part (second element) */
-                var conditionLabel = Array.isArray(label) ? label[1] : label;
-                return modelName + ' — ' + (conditionLabel || '');
+                return rowLabels[rowIndex] || '';
               }
               return '';
             },
