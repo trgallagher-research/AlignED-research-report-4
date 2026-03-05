@@ -69,13 +69,13 @@
             <tr>
               <td>Claude Opus 4.6</td>
               <td>Anthropic</td>
-              <td>Extended thinking (8K budget)</td>
+              <td>Extended thinking (8K budget; API returns summarised thinking)</td>
               <td>Not settable (blocked by extended thinking)</td>
             </tr>
             <tr>
               <td>Gemini 3.1 Pro</td>
               <td>Google</td>
-              <td>Thinking traces (8K budget)</td>
+              <td>Thinking traces (8K budget; API returns full thinking)</td>
               <td>1.0 (default; not modified)</td>
             </tr>
           </tbody>
@@ -178,8 +178,10 @@
 
         <p>Both models were run with their reasoning/thinking features enabled. This produces a chain-of-thought trace that the model generates before producing its final output. These traces are generated text, not a direct window into model computation.</p>
 
+        <p><strong>An important asymmetry:</strong> Anthropic's API returns <em>summarised</em> thinking for Claude 4 models, not the full chain of thought. The summaries preserve key ideas but are shorter than what the model actually generated internally. Gemini's API returns full thinking traces. This means the Claude traces in this study are API-provided summaries, while the Gemini traces are complete. Both are still analytically useful for the scoring rubric, but the Claude traces may omit reasoning that occurred internally.</p>
+
         <div class="note">
-          <strong>Interpretability disclaimer:</strong> Chain-of-thought traces are generated text, not transparent access to model internals. A trace that references CLT may reflect patterns in training data rather than something analogous to human reasoning about pedagogy. We analyse traces as artefacts: evidence of what the model articulated during processing, not claims about internal understanding.
+          <strong>Interpretability disclaimer:</strong> Chain-of-thought traces are generated text, not transparent access to model internals. Claude's traces are additionally summarised by the API before being returned. A trace that references CLT may reflect patterns in training data rather than something analogous to human reasoning about pedagogy. We analyse traces as artefacts: evidence of what the model articulated during processing, not claims about internal understanding.
         </div>
 
         <h2 id="limitations">Limitations</h2>
@@ -193,6 +195,7 @@
           <li><strong>The prompt asks for "full worked solutions."</strong> Conditions A and B include this phrasing because we considered it a reasonable approximation of how a teacher might word the request. A model that complies literally may know about fading but prioritise following the prompt instruction. This is why the comparison across conditions matters: Condition C removes that competing instruction and asks for fading directly.</li>
           <li><strong>Single-turn only.</strong> A teacher might follow up with "can you fade the scaffolding?" This study captures only the first-pass response.</li>
           <li><strong>LLM judges share training biases.</strong> The scoring agents may share systematic biases with the models being scored. Human verification mitigates but does not eliminate this.</li>
+          <li><strong>Claude traces are summarised.</strong> Anthropic's API returns summarised thinking for Claude 4 models, not the full chain of thought. Gemini's API returns full thinking output. This asymmetry means Claude may have reasoned about fading in ways not visible in the returned trace. The scoring rubric was applied to what the API returned.</li>
         </ul>
 
       </div>
