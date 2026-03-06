@@ -34,7 +34,7 @@
     <div class="container">
       <div class="page-header">
         <h1>2. Methods</h1>
-        <p class="subtitle">Six models, three conditions, and a scoring rubric for both outputs and reasoning traces</p>
+        <p class="subtitle">Two models, three conditions, and a scoring rubric for both outputs and reasoning traces</p>
       </div>
 
       <div class="prose content-section">
@@ -54,14 +54,13 @@
 
         <h2 id="models">Models</h2>
 
-        <p>Six models with accessible reasoning traces were tested: three closed-source and three open-weight.</p>
+        <p>Two frontier models with accessible reasoning traces were tested:</p>
 
         <table>
           <thead>
             <tr>
               <th>Model</th>
               <th>Provider</th>
-              <th>Type</th>
               <th>Reasoning trace</th>
               <th>Temperature</th>
             </tr>
@@ -70,50 +69,20 @@
             <tr>
               <td>Claude Opus 4.6</td>
               <td>Anthropic</td>
-              <td>Closed</td>
               <td>Extended thinking (8K budget; API returns summarised thinking)</td>
               <td>Not settable (blocked by extended thinking)</td>
             </tr>
             <tr>
               <td>Gemini 3.1 Pro</td>
               <td>Google</td>
-              <td>Closed</td>
               <td>Thinking traces (8K budget; API returns full thinking)</td>
               <td>1.0 (default; not modified)</td>
-            </tr>
-            <tr>
-              <td>Gemini 3 Flash</td>
-              <td>Google</td>
-              <td>Closed</td>
-              <td>Thinking traces (8K budget; API returns full thinking)</td>
-              <td>1.0 (default; not modified)</td>
-            </tr>
-            <tr>
-              <td>DeepSeek R1-0528</td>
-              <td>DeepSeek (via OpenRouter)</td>
-              <td>Open</td>
-              <td>Full unsummarised chain of thought</td>
-              <td>N/A (reasoning model)</td>
-            </tr>
-            <tr>
-              <td>Qwen3-235B-A22B</td>
-              <td>Alibaba (via OpenRouter)</td>
-              <td>Open</td>
-              <td>Full unsummarised chain of thought</td>
-              <td>N/A (reasoning model)</td>
-            </tr>
-            <tr>
-              <td>GPT-OSS-120B</td>
-              <td>OpenAI (via OpenRouter)</td>
-              <td>Open</td>
-              <td>Minimal traces returned (possible API limitation)</td>
-              <td>N/A (reasoning model)</td>
             </tr>
           </tbody>
         </table>
 
         <div class="note">
-          <strong>API provider note:</strong> The three open-weight models were accessed via OpenRouter, which provides a unified API for open-weight reasoning models. OpenRouter surfaces reasoning traces through the <code>reasoning</code> field. GPT-OSS-120B returned minimal or empty traces across all conditions, which may reflect an OpenRouter limitation rather than an absence of internal reasoning.
+          <strong>Missing model:</strong> OpenAI GPT-5.2 Pro was planned as a third model. Its reasoning trace access was unavailable at the time of data collection. The study proceeded with two models.
         </div>
 
         <h2 id="conditions">Three prompting conditions</h2>
@@ -203,11 +172,11 @@
           <li>All scores were verified against the rubric by the author</li>
         </ul>
 
-        <p>For a pilot of this size (n = 18), formal inter-rater reliability was not computed. A larger follow-up study would include multiple independent scorers and reliability metrics.</p>
+        <p>For a pilot of this size (n = 6), formal inter-rater reliability was not computed. A larger follow-up study would include multiple independent scorers and reliability metrics.</p>
 
         <h2 id="traces">Reasoning trace capture</h2>
 
-        <p>All models were run with their reasoning/thinking features enabled. This produces a chain-of-thought trace that the model generates before producing its final output. These traces are generated text, not a direct window into model computation.</p>
+        <p>Both models were run with their reasoning/thinking features enabled. This produces a chain-of-thought trace that the model generates before producing its final output. These traces are generated text, not a direct window into model computation.</p>
 
         <p><strong>An important asymmetry:</strong> Anthropic's API returns <em>summarised</em> thinking for Claude 4 models, not the full chain of thought. The summaries preserve key ideas but are shorter than what the model actually generated internally. Gemini's API returns full thinking traces. This means the Claude traces in this study are API-provided summaries, while the Gemini traces are complete. Both are still analytically useful for the scoring rubric, but the Claude traces may omit reasoning that occurred internally.</p>
 
@@ -220,8 +189,8 @@
         <p>These limitations are foregrounded here, not buried in the Discussion.</p>
 
         <ul>
-          <li><strong>Six models, one task, one principle.</strong> Findings describe these six models on this task at this point in time. The consistency across models strengthens the finding but does not generalise it to other CLT principles or educational tasks.</li>
-          <li><strong>One run per condition.</strong> Claude's extended thinking mode blocks the temperature parameter entirely. Gemini's thinking mode allows temperature but Google recommends keeping it at the default (1.0). The open-weight reasoning models do not support temperature control. No model was run multiple times, so outputs may vary across runs.</li>
+          <li><strong>Two models, one task, one principle.</strong> Findings describe these two models on this task at this point in time. They do not generalise to LLMs broadly, to other CLT principles, or to other educational tasks.</li>
+          <li><strong>One run per condition.</strong> Claude's extended thinking mode blocks the temperature parameter entirely. Gemini's thinking mode allows temperature but Google recommends keeping it at the default (1.0). Neither model was run with a fixed low temperature, so outputs may vary across runs.</li>
           <li><strong>No human baseline.</strong> We can score model outputs against the rubric, but we do not know how human teachers or instructional designers would perform on the same prompts. Without this comparison, we cannot say whether the models are better or worse than typical human practice.</li>
           <li><strong>The prompt asks for "full worked solutions."</strong> Conditions A and B include this phrasing because we considered it a reasonable approximation of how a teacher might word the request. A model that complies literally may know about fading but prioritise following the prompt instruction. This is why the comparison across conditions matters: Condition C removes that competing instruction and asks for fading directly.</li>
           <li><strong>Single-turn only.</strong> A teacher might follow up with "can you fade the scaffolding?" This study captures only the first-pass response.</li>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AlignED Report 4 — Do LLMs Fade Worked Examples?</title>
-  <meta name="description" content="A pilot study testing whether frontier LLMs apply the worked example fading effect from cognitive load theory. Six models, three conditions, eighteen reasoning traces.">
+  <meta name="description" content="A pilot study testing whether frontier LLMs apply the worked example fading effect from cognitive load theory. Two models, three conditions, six reasoning traces.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -49,9 +49,9 @@
       <div class="abstract">
         <h2>Abstract</h2>
         <p>The worked example fading effect is one of the most robust findings in cognitive load theory: instructional sequences should begin with fully worked examples and progressively remove solution steps so learners take over the problem-solving process. If teachers use LLMs to generate worked examples, do those models apply fading?</p>
-        <p>This pilot study tested six models (three closed-source: Claude Opus 4.6, Gemini 3.1 Pro, Gemini 3 Flash; three open-weight: DeepSeek R1, Qwen3-235B, GPT-OSS-120B) across three prompting conditions: a baseline with no pedagogical instruction, general cognitive load theory instruction, and specific fading instruction. Both model outputs and reasoning traces (chain-of-thought) were collected and scored on two dimensions: whether the output implemented fading, and whether the trace referenced it.</p>
-        <p>The headline finding: all six models demonstrate knowledge of fading-related concepts in their reasoning traces when prompted with "apply cognitive load theory," but none applies fading in their output unless told specifically what it is. This knowledge-application gap has direct implications for teachers relying on AI-generated instructional materials.</p>
-        <p>This is a pilot study with six models, one run per condition, and no inferential statistics. All findings are descriptive. For the full list of AlignED reports, visit <a href="https://trgallagher-research.github.io/AlignED-research-reports/">AlignED Reports</a>.</p>
+        <p>This pilot study tested two frontier models (Claude Opus 4.6 and Gemini 3.1 Pro) across three prompting conditions: a baseline with no pedagogical instruction, general cognitive load theory instruction, and specific fading instruction. Both model outputs and reasoning traces (chain-of-thought) were collected and scored on two dimensions: whether the output implemented fading, and whether the trace referenced it.</p>
+        <p>The headline finding: both models demonstrably know about fading in their reasoning traces when prompted with "apply cognitive load theory," but neither applies it in their output unless told specifically what fading is. This knowledge-application gap has direct implications for teachers relying on AI-generated instructional materials.</p>
+        <p>This is a pilot study with two models, one run per condition, and no inferential statistics. All findings are descriptive. For the full list of AlignED reports, visit <a href="https://trgallagher-research.github.io/AlignED-research-reports/">AlignED Reports</a>.</p>
       </div>
     </div>
 
@@ -61,26 +61,26 @@
         <h2 class="text-center" style="border-top: none; padding-top: 0; margin-top: 0;">At a glance</h2>
         <div class="metric-grid">
           <div class="metric-card">
-            <div class="metric-value">6</div>
-            <div class="metric-label">Models tested</div>
+            <div class="metric-value">2</div>
+            <div class="metric-label">Frontier models tested</div>
           </div>
           <div class="metric-card">
             <div class="metric-value">3</div>
             <div class="metric-label">Prompting conditions</div>
           </div>
           <div class="metric-card">
-            <div class="metric-value">18</div>
+            <div class="metric-value">6</div>
             <div class="metric-label">Outputs scored</div>
           </div>
           <div class="metric-card">
-            <div class="metric-value">18</div>
+            <div class="metric-value">6</div>
             <div class="metric-label">Reasoning traces analysed</div>
           </div>
         </div>
 
         <!-- Key Finding Callout -->
         <div class="note">
-          <strong>Key finding:</strong> All six models retrieved CLT-related knowledge in their reasoning traces when told to "apply cognitive load theory" (Condition B). None applied fading in their output without specific instruction (Condition C). The models have access to fading as a concept but do not select it from their repertoire of CLT principles unless the prompt names it directly.
+          <strong>Key finding:</strong> Both models referenced fading in their reasoning traces when told to "apply cognitive load theory" (Condition B). Neither applied fading in their actual output without specific instruction (Condition C). The models know about fading but do not select it from their repertoire of CLT principles unless the prompt names it directly.
         </div>
       </div>
     </section>
@@ -100,7 +100,7 @@
           </a>
           <a href="methods.html" class="nav-card">
             <h3>2. Methods</h3>
-            <p>Six models, three conditions, a scoring rubric, and reasoning trace capture.</p>
+            <p>Two models, three conditions, a scoring rubric, and reasoning trace capture.</p>
           </a>
           <a href="results.html" class="nav-card">
             <h3>3. Results</h3>
@@ -112,7 +112,7 @@
           </a>
           <a href="appendices.html" class="nav-card">
             <h3>Appendices</h3>
-            <p>Full prompts, scoring rubric, complete outputs, and all eighteen reasoning traces.</p>
+            <p>Full prompts, scoring rubric, complete outputs, and all six reasoning traces.</p>
           </a>
         </div>
       </div>
