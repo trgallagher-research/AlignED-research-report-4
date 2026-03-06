@@ -20,12 +20,13 @@ from dotenv import load_dotenv
 
 from prompts import CONDITIONS
 
-# Load API keys from .env
-load_dotenv()
+# Load API keys from .env (override=True so .env takes precedence over shell env)
+load_dotenv(override=True)
 
 ANTHROPIC_API_KEY = os.getenv("ANTHROPIC_API_KEY")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")
 
 # Validate API keys at startup
 missing_keys = []
@@ -35,9 +36,11 @@ if not OPENAI_API_KEY:
     missing_keys.append("OPENAI_API_KEY")
 if not GOOGLE_API_KEY:
     missing_keys.append("GOOGLE_API_KEY")
+if not OPENROUTER_API_KEY:
+    missing_keys.append("OPENROUTER_API_KEY")
 if missing_keys:
-    print(f"ERROR: Missing API keys in .env: {', '.join(missing_keys)}")
-    sys.exit(1)
+    print(f"WARNING: Missing API keys in .env: {', '.join(missing_keys)}")
+    print("Models requiring these keys will be skipped.")
 
 # Output directory
 OUTPUT_DIR = Path("outputs")
@@ -183,11 +186,82 @@ def call_gemini(prompt, model_id="gemini-3.1-pro-preview"):
     }
 
 
+def call_openrouter(prompt, model_id, model_label):
+    """
+    Call an open-weight reasoning model via OpenRouter.
+    All three models (DeepSeek R1, Qwen3, GPT-OSS) use the same
+    OpenAI-compatible endpoint with reasoning enabled.
+
+    Returns a dict with 'output' and 'trace' keys.
+    The reasoning trace is the full, unsummarised chain of thought.
+    """
+    client = openai.OpenAI(
+        api_key=OPENROUTER_API_KEY,
+        base_url="https://openrouter.ai/api/v1"
+    )
+
+    response = client.chat.completions.create(
+        model=model_id,
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=16000,
+        extra_body={
+            "reasoning": {
+                "max_tokens": 8000
+            },
+            "include_reasoning": True
+        }
+    )
+
+    message = response.choices[0].message
+
+    # OpenRouter surfaces reasoning in the 'reasoning' attribute
+    trace_text = getattr(message, "reasoning", "") or ""
+    output_text = message.content or ""
+
+    if not trace_text:
+        print(f"  -> WARNING: No reasoning trace found in {model_label} response")
+
+    return {
+        "output": output_text,
+        "trace": trace_text,
+        "model": model_id,
+        "temperature": "N/A (reasoning model)",
+        "input_tokens": getattr(response.usage, "prompt_tokens", 0),
+        "output_tokens": getattr(response.usage, "completion_tokens", 0),
+    }
+
+
+def call_gemini_3_flash(prompt):
+    """Call Gemini 3 Flash Preview via REST API with thinking enabled.
+    Returns full (unsummarised) reasoning trace."""
+    return call_gemini(prompt, model_id="gemini-3-flash-preview")
+
+
+def call_deepseek_r1(prompt):
+    """Call DeepSeek R1-0528 via OpenRouter. Returns full reasoning trace."""
+    return call_openrouter(prompt, "deepseek/deepseek-r1-0528", "DeepSeek R1")
+
+
+def call_qwen3(prompt):
+    """Call Qwen3-235B-A22B via OpenRouter. Returns full reasoning trace."""
+    return call_openrouter(prompt, "qwen/qwen3-235b-a22b", "Qwen3-235B")
+
+
+def call_gpt_oss(prompt):
+    """Call GPT-OSS-120B via OpenRouter. Returns full reasoning trace."""
+    return call_openrouter(prompt, "openai/gpt-oss-120b", "GPT-OSS-120B")
+
+
 # Map of model names to their call functions
-# OpenAI GPT-5.2 Pro not available on this account — pilot runs with 2 models
+# Original pilot: Claude Opus 4.6 + Gemini 3.1 Pro
+# Extended: 3 open-weight models with full (unsummarised) reasoning traces
 MODELS = {
     "claude_opus_4_6": call_claude,
     "gemini_3_1_pro": call_gemini,
+    "gemini_3_flash": call_gemini_3_flash,
+    "deepseek_r1_0528": call_deepseek_r1,
+    "qwen3_235b": call_qwen3,
+    "gpt_oss_120b": call_gpt_oss,
 }
 
 
